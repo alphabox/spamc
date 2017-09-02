@@ -1,11 +1,13 @@
 package hu.alphabox.spamc;
 
+import java.io.IOException;
 import java.net.InetAddress;
-import java.net.UnknownHostException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class Main {
 
-	public static void main(String[] args) throws UnknownHostException, SAException {
+	public static void main(String[] args) throws SAException, IOException {
 		String message = "Subject: Test spam mail (GTUBE)\n" + 
 				"Message-ID: <GTUBE1.1010101@example.net>\n" + 
 				"Date: Wed, 23 Jul 2003 23:30:00 +0200\n" + 
@@ -37,6 +39,8 @@ public class Main {
 		request.setUser("nobody");
 		request.setUseCompression(true);
 		SAClient client = new SAClient(InetAddress.getByName("192.168.1.104"), 783);
+		Files.write(Paths.get("teszt"), request.getCompressedMessage(message.getBytes()));
+		System.out.println(request.getRequestByteArray().toString());
 		for ( SACommand command : SACommand.values() ) {
 			System.out.println("Send command: " + command.name());
 			request.setCommand(command);			

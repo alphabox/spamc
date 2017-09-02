@@ -26,15 +26,12 @@ public class SAClient {
 			StringBuilder builder = new StringBuilder();
 			builder.append(request.getCommand().name()).append(' ');
 			builder.append("SPAMC/").append(PROTOCOL_VERSION).append("\r\n");
-			builder.append(request.getRequest());
-			System.out.println(builder.toString());
 			outputStream.write(builder.toString().getBytes());
+			outputStream.write(request.getRequestByteArray().toByteArray());
 			outputStream.flush();
 
 			builder.setLength(0);
-
 			byte[] cache = new byte[1024];
-
 			while (inputStream.read(cache) != -1) {
 				builder.append(new String(cache));
 			}

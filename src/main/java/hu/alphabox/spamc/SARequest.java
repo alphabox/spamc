@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.zip.Deflater;
-import java.util.zip.DeflaterOutputStream;
 
 public class SARequest {
 
@@ -26,20 +24,6 @@ public class SARequest {
 		this.message = false;
 		this.headers = new HashMap<>();
 		this.setUser("nobody");
-	}
-	
-	private String getCompressedMessage(byte[] message) {
-		Deflater deflater = new Deflater(Deflater.BEST_COMPRESSION, true);
-		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-		DeflaterOutputStream outputStream = new DeflaterOutputStream(byteArrayOutputStream, deflater, true);
-		try {
-			outputStream.write(message, 0, message.length);
-			outputStream.flush();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return byteArrayOutputStream.toString();
 	}
 	
 	private void setContentLength(int length) {
@@ -89,7 +73,9 @@ public class SARequest {
 		this.message = message;
 	}
 	
-	
+	public byte[] getCompressedMessage(byte[] message) {
+		return Zlib.compress(message);
+	}
 
 	public void setUseCompression(boolean useCompression) {
 		this.useCompression = useCompression;
@@ -102,17 +88,19 @@ public class SARequest {
 		}
 		return buffer.toString();
 	}
-	
-	public String getRequest() {
-		StringBuilder builder = new StringBuilder();
-		String message = email;
-		if (useCompression) {
+
+	public ByteArrayOutputStream getRequestByteArray() throws IOException {
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		if ( useCompression ) {
 			headers.put("Compress", "zlib");
-			message = getCompressedMessage(email.getBytes());
 		}
-		setContentLength(message.length());
-		builder.append(getHeaders()).append("\r\n").append(message);
-		return builder.toString();
+		byte[] byteEmail = useCompression ? getCompressedMessage(email.getBytes()) : email.getBytes();
+		setContentLength(byteEmail.length);
+		outputStream.write(getHeaders().getBytes());
+		outputStream.write(new String("\r\n").getBytes());
+		outputStream.write(byteEmail);
+		return outputStream;
+		
 	}
 
 }
