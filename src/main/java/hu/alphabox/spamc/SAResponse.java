@@ -6,7 +6,7 @@ public class SAResponse {
 
 	private static final Pattern SPLIT_PATTERN;
 	private static final Pattern DSPLIT_PATTERN;
-	
+
 	static {
 		SPLIT_PATTERN = Pattern.compile("\r?\n");
 		DSPLIT_PATTERN = Pattern.compile("\r\n\r\n");
@@ -20,14 +20,15 @@ public class SAResponse {
 	private boolean isSpam;
 	private double spamScore;
 	private double spamThreshold;
-	
-	public SAResponse() {}
+
+	public SAResponse() {
+	}
 
 	public SAResponse(String response) throws SAException {
 		String[] splittedResponse = DSPLIT_PATTERN.split(response);
 		if (splittedResponse.length > 0) {
 			this.headers = splittedResponse[0].replaceAll("\0+", "");
-			this.message = splittedResponse.length == 2 ? splittedResponse[1] : "";
+			this.message = splittedResponse.length == 2 ? splittedResponse[1].trim() : "";
 		}
 
 		processHeaders(this.headers);
@@ -45,7 +46,7 @@ public class SAResponse {
 			case "spamd":
 				lineSplit = lines[i].split("[ /]");
 				int errorCode = Integer.parseInt(lineSplit[2]);
-				if ( errorCode != 0) {
+				if (errorCode != 0) {
 					throw new SAException(lines[i], errorCode);
 				}
 				this.protocolVersion = lineSplit[1];
@@ -60,9 +61,13 @@ public class SAResponse {
 				lineSplit = lines[i].split(": ");
 				this.responseLength = Integer.parseInt(lineSplit[1]);
 				break;
-			default:
-				System.out.println("Ohh JAJ:" + lines[i]);
+			case "didset":
+			case "didremove":
+				// TODO: Save variable
+				lineSplit = lines[i].split(": ");
 				break;
+			default:
+				throw new SAException("Unrecognized header line: " + lines[i]);
 			}
 		}
 	}
@@ -114,4 +119,12 @@ public class SAResponse {
 	public void setSpamThreshold(double spamThreshold) {
 		this.spamThreshold = spamThreshold;
 	}
+
+	@Override
+	public String toString() {
+		return "SAResponse [message=" + message + ", headers=" + headers + ", responseLength=" + responseLength
+				+ ", protocolVersion=" + protocolVersion + ", isSpam=" + isSpam + ", spamScore=" + spamScore
+				+ ", spamThreshold=" + spamThreshold + "]";
+	}
+
 }

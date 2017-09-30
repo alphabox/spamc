@@ -2,10 +2,13 @@ package hu.alphabox.spamc;
 
 import java.io.IOException;
 import java.net.InetAddress;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Main {
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
 
 	public static void main(String[] args) throws SAException, IOException {
 		String message = "Subject: Test spam mail (GTUBE)\n" + 
@@ -33,19 +36,20 @@ public class Main {
 				"XJS*C4JDBQADN1.NSBN3*2IDNEN*GTUBE-STANDARD-ANTI-UBE-TEST-EMAIL*C.34X\n" + 
 				"\n" + 
 				"You should send this test mail from an account outside of your network.\n";
-		
+				
 		SARequest request = new SARequest();
 		request.setEmail(message);
-		request.setUser("nobody");
-		request.setUseCompression(true);
+		request.useCompression(true);
 		SAClient client = new SAClient(InetAddress.getByName("192.168.1.104"), 783);
-		Files.write(Paths.get("teszt"), request.getCompressedMessage(message.getBytes()));
-		System.out.println(request.getRequestByteArray().toString());
 		for ( SACommand command : SACommand.values() ) {
-			System.out.println("Send command: " + command.name());
+			LOGGER.info("Send command: " + command.name());
+			if ( command == SACommand.TELL ) {
+				request.addHeader("Message-class", "spam");
+				request.addHeader("Set", "local,remote");
+			}
 			request.setCommand(command);			
-			client.sendRequest(request);
-		}
+			LOGGER.info(client.sendRequest(request).toString());
+		}	
 	}
 
 }

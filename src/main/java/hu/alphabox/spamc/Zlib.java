@@ -13,30 +13,24 @@ public class Zlib {
 		deflater.setInput(data);
 		deflater.finish();
 		byte[] buffer = new byte[1024];
-		while(!deflater.finished()) {
+		while (!deflater.finished()) {
 			int count = deflater.deflate(buffer);
 			outputStream.write(buffer, 0, count);
 		}
 		deflater.end();
-		outputStream.write('\0');
 		return outputStream.toByteArray();
 	}
-	
-	public static byte[] uncompress(byte[] data) {
+
+	public static byte[] uncompress(byte[] data) throws DataFormatException {
 		Inflater inflater = new Inflater();
 		inflater.setInput(data);
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		byte[] buffer = new byte[1024];
-		try {
-			while(!inflater.finished()) {
-					int count = inflater.inflate(buffer);
-					outputStream.write(buffer, 0, count);
-			}
-		} catch (DataFormatException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		while (!inflater.finished()) {
+			int count = inflater.inflate(buffer);
+			outputStream.write(buffer, 0, count);
 		}
 		return outputStream.toByteArray();
 	}
-	
+
 }

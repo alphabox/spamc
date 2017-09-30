@@ -7,6 +7,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 public class SARequest {
+	
+	public static final String PROTOCOL_VERSION = "1.5";
+	public static final String NEW_LINE = "\r\n";
 
 	private SACommand command;
 
@@ -14,16 +17,27 @@ public class SARequest {
 	
 	private boolean useCompression;
 
-	// TODO: DeflaterOutputStream (zlib compress is missing)
 	private boolean message;
 
 	private Map<String, Object> headers;
 
 	public SARequest() {
+		this("nobody");
+	}
+	
+	public SARequest(String user) {
 		this.useCompression = false;
 		this.message = false;
 		this.headers = new HashMap<>();
-		this.setUser("nobody");
+		this.setUser(user);
+	}
+	
+	public void addHeader(String key, Object value) {
+		headers.put(key, value);
+	}
+	
+	public void removeHeader(String key) {
+		headers.remove(key);
 	}
 	
 	private void setContentLength(int length) {
@@ -72,32 +86,37 @@ public class SARequest {
 	public void setMessage(boolean message) {
 		this.message = message;
 	}
-	
-	public byte[] getCompressedMessage(byte[] message) {
-		return Zlib.compress(message);
-	}
 
-	public void setUseCompression(boolean useCompression) {
+	public void useCompression(boolean useCompression) {
 		this.useCompression = useCompression;
+	}
+	
+	public boolean isUseCompression() {
+		return this.useCompression;
 	}
 
 	public String getHeaders() {
 		StringBuffer buffer = new StringBuffer();
 		for (Entry<String, Object> entry : headers.entrySet()) {
-			buffer.append(entry.getKey()).append(": ").append(entry.getValue()).append("\r\n");
+			buffer.append(entry.getKey()).append(": ").append(entry.getValue()).append(NEW_LINE);
 		}
 		return buffer.toString();
 	}
 
 	public ByteArrayOutputStream getRequestByteArray() throws IOException {
+		StringBuilder builder = new StringBuilder();
+		builder.append(getCommand().name()).append(' ');
+		builder.append("SPAMC/").append(PROTOCOL_VERSION).append(NEW_LINE);		
+		
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		outputStream.write(builder.toString().getBytes());
 		if ( useCompression ) {
 			headers.put("Compress", "zlib");
 		}
-		byte[] byteEmail = useCompression ? getCompressedMessage(email.getBytes()) : email.getBytes();
+		byte[] byteEmail = useCompression ? Zlib.compress(email.getBytes()) : email.getBytes();
 		setContentLength(byteEmail.length);
 		outputStream.write(getHeaders().getBytes());
-		outputStream.write(new String("\r\n").getBytes());
+		outputStream.write(NEW_LINE.getBytes());
 		outputStream.write(byteEmail);
 		return outputStream;
 		
