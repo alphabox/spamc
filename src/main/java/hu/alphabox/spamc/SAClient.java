@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 public class SAClient {
 
@@ -14,6 +15,16 @@ public class SAClient {
 	public SAClient(InetAddress address) {
 		this(address, 783);
 	}
+	
+	public SAClient(String host) throws UnknownHostException {
+		this(InetAddress.getByName(host), 783);
+	}
+	
+	public SAClient(String host, int port) throws UnknownHostException {
+		this(InetAddress.getByName(host), port);
+	}
+	
+	
 
 	public SAClient(InetAddress address, int port) {
 		this.address = address;
@@ -31,7 +42,7 @@ public class SAClient {
 
 			byte[] cache = new byte[1024];
 			while (inputStream.read(cache) != -1) {
-				builder.append(new String(cache));
+				builder.append(new String(cache, SARequest.ENCODING));
 			}
 			return new SAResponse(builder.toString());
 

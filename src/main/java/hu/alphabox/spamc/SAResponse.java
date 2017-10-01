@@ -1,5 +1,6 @@
 package hu.alphabox.spamc;
 
+import java.util.Locale;
 import java.util.regex.Pattern;
 
 public class SAResponse {
@@ -39,7 +40,7 @@ public class SAResponse {
 		for (int i = 0; i < lines.length; i++) {
 			String[] lineSplit = null;
 			String s[] = lines[i].split("[/:\\s]", 2);
-			switch (s[0].toLowerCase()) {
+			switch (s[0].toLowerCase(Locale.ROOT)) {
 			// Empty line as response to SKIP command
 			case "":
 				break;

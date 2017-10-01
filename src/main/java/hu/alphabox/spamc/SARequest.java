@@ -10,6 +10,7 @@ public class SARequest {
 	
 	public static final String PROTOCOL_VERSION = "1.5";
 	public static final String NEW_LINE = "\r\n";
+	public static final String ENCODING = "UTF-8";
 
 	private SACommand command;
 
@@ -104,19 +105,16 @@ public class SARequest {
 	}
 
 	public ByteArrayOutputStream getRequestByteArray() throws IOException {
-		StringBuilder builder = new StringBuilder();
-		builder.append(getCommand().name()).append(' ');
-		builder.append("SPAMC/").append(PROTOCOL_VERSION).append(NEW_LINE);		
-		
+		String requestProtocol = getCommand().name() + ' ' + "SPAMC/" + PROTOCOL_VERSION + NEW_LINE;
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-		outputStream.write(builder.toString().getBytes());
+		outputStream.write(requestProtocol.getBytes(ENCODING));
 		if ( useCompression ) {
 			headers.put("Compress", "zlib");
 		}
-		byte[] byteEmail = useCompression ? Zlib.compress(email.getBytes()) : email.getBytes();
+		byte[] byteEmail = useCompression ? Zlib.compress(email.getBytes(ENCODING)) : email.getBytes(ENCODING);
 		setContentLength(byteEmail.length);
-		outputStream.write(getHeaders().getBytes());
-		outputStream.write(NEW_LINE.getBytes());
+		outputStream.write(getHeaders().getBytes(ENCODING));
+		outputStream.write(NEW_LINE.getBytes(ENCODING));
 		outputStream.write(byteEmail);
 		return outputStream;
 		
