@@ -9,12 +9,12 @@
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
-	
+
 	<scm>
-        <connection>scm:git:https://github.com/mecseid/spamc</connection>
-        <url>https://github.com/mecseid/spamc</url>
+		<connection>scm:git:https://github.com/mecseid/spamc</connection>
+		<url>https://github.com/mecseid/spamc</url>
 	</scm>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
@@ -24,6 +24,12 @@
 	</dependencies>
 	<build>
 		<plugins>
+			<!-- FindBugs Plugin -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>findbugs-maven-plugin</artifactId>
+				<version>3.0.1</version>
+			</plugin>
 			<!-- Clean Plugin -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
