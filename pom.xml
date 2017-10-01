@@ -9,6 +9,12 @@
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
+	
+	<scm>
+        <connection>scm:git:https://github.com/mecseid/spamc</connection>
+        <url>https://github.com/mecseid/spamc</url>
+	</scm>
+	
 	<dependencies>
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
@@ -16,4 +22,86 @@
 			<version>1.2.3</version>
 		</dependency>
 	</dependencies>
+	<build>
+		<plugins>
+			<!-- Clean Plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-clean-plugin</artifactId>
+				<version>3.0.0</version>
+			</plugin>
+			<!-- Source Plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>3.0.0</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- Resource Plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.7</version>
+			</plugin>
+			<!-- Compiler Plugin -->
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.5.1</version>
+				<configuration>
+					<encoding>UTF-8</encoding>
+					<source>1.8</source>
+					<target>1.8</target>
+					<proc>none</proc>
+					<fork>true</fork>
+					<meminitial>1024</meminitial>
+					<maxmem>2048</maxmem>
+				</configuration>
+			</plugin>
+			<!-- BuildNumber Plugin -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>buildnumber-maven-plugin</artifactId>
+				<version>1.4</version>
+				<configuration />
+				<executions>
+					<execution>
+						<phase>validate</phase>
+						<goals>
+							<goal>create</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- JAR Plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.6</version>
+				<configuration>
+					<archive>
+						<addMavenDescriptor>false</addMavenDescriptor>
+						<manifestEntries>
+							<OS-Name>${os.name}</OS-Name>
+							<OS-Arch>${os.arch}</OS-Arch>
+							<OS-Version>${os.version}</OS-Version>
+							<Java-Version>${java.version}</Java-Version>
+							<Java-Vendor>${java.vendor}</Java-Vendor>
+							<Built-By>${user.name}</Built-By>
+							<Built-Date>${timestamp}</Built-Date>
+							<Git-SHA-1>${buildNumber}</Git-SHA-1>
+							<Git-Branch>${scmBranch}</Git-Branch>
+						</manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>
