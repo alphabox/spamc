@@ -21,6 +21,12 @@
 			<artifactId>logback-classic</artifactId>
 			<version>1.2.3</version>
 		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
@@ -107,6 +113,11 @@
 						</manifestEntries>
 					</archive>
 				</configuration>
+			</plugin>
+			<!-- SureFire Plugin For Tests-->
+			<plugin>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.19</version>
 			</plugin>
 		</plugins>
 	</build>
