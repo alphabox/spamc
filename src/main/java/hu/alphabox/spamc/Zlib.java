@@ -5,8 +5,21 @@ import java.util.zip.DataFormatException;
 import java.util.zip.Deflater;
 import java.util.zip.Inflater;
 
+/**
+ * A simple helper class to compress/decompress messages with zlib protocol.
+ * 
+ * @author Mecsei Dániel
+ *
+ */
 public class Zlib {
 
+	/**
+	 * Compress message with {@link Deflater} DEFAULT_COMPRESSION level.
+	 * 
+	 * @param data
+	 *            the message/data to compress
+	 * @return compressed message
+	 */
 	public static byte[] compress(byte[] data) {
 		Deflater deflater = new Deflater(Deflater.DEFAULT_COMPRESSION);
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -21,6 +34,16 @@ public class Zlib {
 		return outputStream.toByteArray();
 	}
 
+	/**
+	 * Decompress data.
+	 * 
+	 * @param data
+	 *            zlib compressed message/data
+	 * @return decompressed message
+	 * @throws DataFormatException
+	 *             If the {@code data} is not compressed properly or the data is not
+	 *             zlib compressed
+	 */
 	public static byte[] uncompress(byte[] data) throws DataFormatException {
 		Inflater inflater = new Inflater();
 		inflater.setInput(data);

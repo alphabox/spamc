@@ -38,9 +38,9 @@ public class Main {
 				"You should send this test mail from an account outside of your network.\n";
 				
 		SARequest request = new SARequest();
-		request.setEmail(message);
-		request.useCompression(true);
-		SAClient client = new SAClient(InetAddress.getByName("192.168.1.104"), 783);
+		request.setMessage(message);
+		//request.useCompression(true);
+		SAClient client = new SAClient(InetAddress.getByName("10.0.10.20"), 783);
 		for ( SACommand command : SACommand.values() ) {
 			LOGGER.info("Send command: " + command.name());
 			if ( command == SACommand.TELL ) {
@@ -48,7 +48,7 @@ public class Main {
 				request.addHeader("Set", "local,remote");
 			}
 			request.setCommand(command);			
-			LOGGER.info(client.sendRequest(request).toString());
+			client.sendRequest(request);
 		}	
 	}
 

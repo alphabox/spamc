@@ -3,9 +3,27 @@ package hu.alphabox.spamc;
 import java.util.Locale;
 import java.util.regex.Pattern;
 
+/**
+ * Store the parsed response details from SpamAssassin server. The
+ * {@code SAResponse} contains details about the message, such as, the message
+ * is spam or not, the spam score/threshold, and the modified headers and
+ * message (if we choose the right {@code SACommand}}.
+ * 
+ * The response also contains the SpamAssassin protocol version.
+ * 
+ * @author Mecsei Dániel
+ *
+ */
 public class SAResponse {
 
+	/**
+	 * A simple pattern to split response message around new lines.
+	 */
 	private static final Pattern SPLIT_PATTERN;
+
+	/**
+	 * A simple pattern to split response message around double new lines.
+	 */
 	private static final Pattern DSPLIT_PATTERN;
 
 	static {
@@ -13,18 +31,57 @@ public class SAResponse {
 		DSPLIT_PATTERN = Pattern.compile("\r\n\r\n");
 	}
 
+	/**
+	 * The modified message or symbols that match to the message.
+	 */
 	private String message;
+
+	/**
+	 * The SpamAssassin responses headers.
+	 */
 	private String headers;
 
+	/**
+	 * The response content length.
+	 */
 	private int responseLength;
+
+	/**
+	 * The SpamAssassin server protocol version.
+	 */
 	private String protocolVersion;
+
+	/**
+	 * The message is spam or not.
+	 */
 	private boolean isSpam;
+
+	/**
+	 * The message spam score from SpamAssassin server.
+	 */
 	private double spamScore;
+
+	/**
+	 * The adjusted threshold of the server and the current message.
+	 */
 	private double spamThreshold;
 
+	/**
+	 * Create a new {@code SAResponse} object with default values.
+	 */
 	public SAResponse() {
 	}
 
+	/**
+	 * Create a new {@code SAResponse} object which parse the response from
+	 * SpamAssassin server.
+	 * 
+	 * @param response
+	 *            the response message from SA
+	 * @throws SAException
+	 *             If the response message cannot parsed or contains a header that
+	 *             we cannot recognize.
+	 */
 	public SAResponse(String response) throws SAException {
 		String[] splittedResponse = DSPLIT_PATTERN.split(response);
 		if (splittedResponse.length > 0) {
@@ -35,6 +92,15 @@ public class SAResponse {
 		processHeaders(this.headers);
 	}
 
+	/**
+	 * Parse the SpamAssassin server response messages headers.
+	 * 
+	 * @param headers
+	 *            the SA reponse raw headers
+	 * @throws SAException
+	 *             If we cannot parse the raw headers or contains a header that we
+	 *             cannot recognize.
+	 */
 	private void processHeaders(String headers) throws SAException {
 		String[] lines = SPLIT_PATTERN.split(headers);
 		for (int i = 0; i < lines.length; i++) {
@@ -73,52 +139,60 @@ public class SAResponse {
 		}
 	}
 
+	/**
+	 * Contains the modified message, the report from message, or the symbols that match to the message.
+	 * @return the message
+	 */
 	public String getMessage() {
 		return message;
 	}
 
-	public void setMessage(String message) {
-		this.message = message;
+	/**
+	 * The parsed headers of the SpamAssassin response.
+	 * @return the headers
+	 */
+	public String getHeaders() {
+		return headers;
 	}
 
+	/**
+	 * Returns with the SpamAssassin response length.
+	 * @return the responseLength
+	 */
 	public int getResponseLength() {
 		return responseLength;
 	}
 
-	public void setResponseLength(int responseLength) {
-		this.responseLength = responseLength;
-	}
-
+	/**
+	 * Returns with the SpamAssassin server protocol version.
+	 * @return the protocolVersion
+	 */
 	public String getProtocolVersion() {
 		return protocolVersion;
 	}
 
-	public void setProtocolVersion(String protocolVersion) {
-		this.protocolVersion = protocolVersion;
-	}
-
+	/**
+	 * Return true if the message is spam, else false.
+	 * @return return the isSpam
+	 */
 	public boolean isSpam() {
 		return isSpam;
 	}
 
-	public void setSpam(boolean isSpam) {
-		this.isSpam = isSpam;
-	}
-
+	/**
+	 * The spam score of the message.
+	 * @return the spamScore
+	 */
 	public double getSpamScore() {
 		return spamScore;
 	}
 
-	public void setSpamScore(double spamScore) {
-		this.spamScore = spamScore;
-	}
-
+	/**
+	 * The spam threshold of the server.
+	 * @return the spamThreshold
+	 */
 	public double getSpamThreshold() {
 		return spamThreshold;
-	}
-
-	public void setSpamThreshold(double spamThreshold) {
-		this.spamThreshold = spamThreshold;
 	}
 
 	@Override
