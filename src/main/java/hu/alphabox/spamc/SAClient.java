@@ -7,9 +7,6 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * </p>
  * Manage connection to SpamAssassin server, send {@code SARequest} to it and
@@ -22,12 +19,10 @@ import org.slf4j.LoggerFactory;
  * email per connection.
  * </p>
  * 
- * @author Mecsei Dániel
+ * @author Daniel Mecsei
  *
  */
 public class SAClient {
-
-	private static final Logger LOGGER = LoggerFactory.getLogger(SAClient.class);
 
 	/**
 	 * The connection (IP) address to SpamAssassin server.
@@ -111,8 +106,6 @@ public class SAClient {
 			InputStream inputStream = socket.getInputStream();
 
 			StringBuilder builder = new StringBuilder();
-			LOGGER.info("Amit kuldunk:");
-			System.out.println(request.getRequestByteArray().toString());
 			outputStream.write(request.getRequestByteArray().toByteArray());
 			outputStream.flush();
 
@@ -120,8 +113,6 @@ public class SAClient {
 			while (inputStream.read(cache) != -1) {
 				builder.append(new String(cache, SARequest.ENCODING));
 			}
-			LOGGER.info("Amit kapunk:");
-			System.out.println(builder.toString().replaceAll("\0+", ""));
 			return new SAResponse(builder.toString());
 
 		}

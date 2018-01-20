@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
  * 
  * The response also contains the SpamAssassin protocol version.
  * 
- * @author Mecsei Dániel
+ * @author Daniel Mecsei
  *
  */
 public class SAResponse {

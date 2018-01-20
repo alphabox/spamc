@@ -8,7 +8,7 @@ import java.util.zip.Inflater;
 /**
  * A simple helper class to compress/decompress messages with zlib protocol.
  * 
- * @author Mecsei Dániel
+ * @author Daniel Mecsei
  *
  */
 public class Zlib {

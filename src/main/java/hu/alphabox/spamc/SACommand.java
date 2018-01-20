@@ -3,7 +3,7 @@ package hu.alphabox.spamc;
 /**
  * The class contains the available commands for spamd to execute.
  * 
- * @author Mecsei Dániel
+ * @author Daniel Mecsei
  * @see {@link https://svn.apache.org/repos/asf/spamassassin/trunk/spamd/PROTOCOL}
  *
  */

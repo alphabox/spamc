@@ -6,7 +6,7 @@ package hu.alphabox.spamc;
  * client/server and an errorCode to check the specific problem on SpamAssassin
  * site, if it has any documentation on it.
  * 
- * @author Mecsei Dániel
+ * @author Daniel Mecsei
  *
  */
 public class SAException extends Exception {

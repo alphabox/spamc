@@ -12,7 +12,7 @@ import java.util.Map.Entry;
  * which we want to send to the server. It contains the protocol version, and we
  * can set the compression if we want.
  * 
- * @author Mecsei Dániel
+ * @author Daniel Mecsei
  *
  */
 public class SARequest {
