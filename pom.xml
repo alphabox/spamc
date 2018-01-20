@@ -11,8 +11,8 @@
 	</properties>
 
 	<scm>
-		<connection>scm:git:https://github.com/mecseid/spamc</connection>
-		<url>https://github.com/mecseid/spamc</url>
+		<connection>scm:git:https://github.com/alphabox/spamc</connection>
+		<url>https://github.com/alphabox/spamc</url>
 	</scm>
 
 	<dependencies>
