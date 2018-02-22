@@ -8,7 +8,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 /**
- * </p>
+ * <p>
  * Manage connection to SpamAssassin server, send {@code SARequest} to it and
  * read response for them. We can join to SpamAssassin server with different
  * IP/Domain and port combinations.

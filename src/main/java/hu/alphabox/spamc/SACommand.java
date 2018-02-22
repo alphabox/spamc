@@ -4,7 +4,7 @@ package hu.alphabox.spamc;
  * The class contains the available commands for spamd to execute.
  * 
  * @author Daniel Mecsei
- * @see {@link https://svn.apache.org/repos/asf/spamassassin/trunk/spamd/PROTOCOL}
+ * @see <a href="https://svn.apache.org/repos/asf/spamassassin/trunk/spamd/PROTOCOL">Spamd Protocol</a>
  *
  */
 public enum SACommand {

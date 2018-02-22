@@ -70,6 +70,7 @@ public class SARequest {
 	 * compress message as a default setting.
 	 * 
 	 * @param user
+	 *            username of the user on whose behalf this scan is being performed
 	 */
 	public SARequest(String user) {
 		this.useCompression = false;

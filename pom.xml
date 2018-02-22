@@ -3,17 +3,49 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>hu.alphabox</groupId>
 	<artifactId>spamc</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<name>spamc</name>
+	<description>A solid client in Java to communicate with SpamAssassin</description>
+	<url>https://github.com/alphabox/spamc</url>
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>https://github.com/alphabox/spamc/blob/master/LICENSE</url>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<name>Daniel Mecsei</name>
+			<email>mecseid@gmail.com</email>
+		</developer>
+	</developers>
+
+	<scm>
+		<connection>scm:git:git://github.com/alphabox/spamc.git</connection>
+		<developerConnection>scm:git:ssh://github.com/alphabox/spamc.git</developerConnection>
+		<url>https://github.com/alphabox/spamc</url>
+	</scm>
+
+	<distributionManagement>
+		<snapshotRepository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+		<repository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
+	</distributionManagement>
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
 
-	<scm>
-		<connection>scm:git:https://github.com/alphabox/spamc</connection>
-		<url>https://github.com/alphabox/spamc</url>
-	</scm>
 
 	<dependencies>
 		<dependency>
@@ -54,6 +86,20 @@
 						<phase>verify</phase>
 						<goals>
 							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- Javadoc Plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>3.0.0</version>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
 						</goals>
 					</execution>
 				</executions>
@@ -115,7 +161,22 @@
 					</archive>
 				</configuration>
 			</plugin>
-			<!-- SureFire Plugin For Tests-->
+			<!-- GPG Plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<version>1.6</version>
+				<executions>
+					<execution>
+						<id>sign-artifacts</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- SureFire Plugin For Tests -->
 			<plugin>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>2.19</version>
