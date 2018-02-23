@@ -34,7 +34,7 @@ public enum SACommand {
 	 */
 	SKIP,
 	/**
-	 * Chech that the spamd is alive or not.
+	 * Check that the spamd is alive or not.
 	 */
 	PING,
 	/**

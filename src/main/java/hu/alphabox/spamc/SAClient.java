@@ -98,7 +98,7 @@ public class SAClient {
 	 *             If the SpamAssassin response not recognized.
 	 * @throws IOException
 	 *             If we cannot read from input/output stream, the connection timed
-	 *             out or close immedietly, or other I/O exception occur.
+	 *             out or close immediately, or other I/O exception occur.
 	 */
 	public SAResponse sendRequest(SARequest request) throws SAException, IOException {
 		try (Socket socket = new Socket(address, port)) {

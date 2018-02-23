@@ -96,7 +96,7 @@ public class SAResponse {
 	 * Parse the SpamAssassin server response messages headers.
 	 * 
 	 * @param headers
-	 *            the SA reponse raw headers
+	 *            the SA response raw headers
 	 * @throws SAException
 	 *             If we cannot parse the raw headers or contains a header that we
 	 *             cannot recognize.

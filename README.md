@@ -3,8 +3,17 @@
 spamc is a simple, solid library in Java to communicate with Apache SpamAssassin.
 You can send different messages (tipically email) for SpamAssassin to check it is a spam or not.
 
+## Maven dependency
+```xml
+<dependency>
+    <groupId>hu.alphabox</groupId>
+    <artifactId>spamc</artifactId>
+    <version>0.1</version>
+</dependency>
+```
+
 ## Building
-To make the spamc-0.0.1-SNAPSHOT.jar, you will need the Apache Maven installed.
+To make the spamc-0.1-SNAPSHOT.jar, you will need the Apache Maven installed.
 Run the following command:
 ```
 mvn clean package

@@ -1,7 +1,7 @@
 package hu.alphabox.spamc;
 
 /**
- * The class represents problems about Spamassassin, which has a client or
+ * The class represents problems about SpamAssassin, which has a client or
  * server side problem. The {@code SAException} contains the message from
  * client/server and an errorCode to check the specific problem on SpamAssassin
  * site, if it has any documentation on it.
