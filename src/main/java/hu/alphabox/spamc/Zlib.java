@@ -12,6 +12,8 @@ import java.util.zip.Inflater;
  *
  */
 public class Zlib {
+	
+	private Zlib() {}
 
 	/**
 	 * Compress message with {@link Deflater} DEFAULT_COMPRESSION level.

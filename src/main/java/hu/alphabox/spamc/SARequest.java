@@ -219,7 +219,7 @@ public class SARequest {
 	 * @return the request headers
 	 */
 	protected String getHeaders() {
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 		for (Entry<String, Object> entry : headers.entrySet()) {
 			buffer.append(entry.getKey()).append(": ").append(entry.getValue()).append(NEW_LINE);
 		}
