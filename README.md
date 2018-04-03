@@ -8,12 +8,12 @@ You can send different messages (tipically email) for SpamAssassin to check it i
 <dependency>
     <groupId>hu.alphabox</groupId>
     <artifactId>spamc</artifactId>
-    <version>0.1</version>
+    <version>0.1.1</version>
 </dependency>
 ```
 
 ## Building
-To make the spamc-0.1-SNAPSHOT.jar, you will need the Apache Maven installed.
+To make the latest SNAPSHOT jar file, you will need the Apache Maven installed.
 Run the following command:
 ```
 mvn clean package
