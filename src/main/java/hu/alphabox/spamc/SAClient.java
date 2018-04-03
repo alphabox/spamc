@@ -106,8 +106,9 @@ public class SAClient {
 			InputStream inputStream = socket.getInputStream();
 
 			StringBuilder builder = new StringBuilder();
-			outputStream.write(request.getRequestByteArray().toByteArray());
-			outputStream.flush();
+
+			request.getRequestByteArray().writeTo(outputStream);
+			socket.shutdownOutput();
 
 			byte[] cache = new byte[1024];
 			while (inputStream.read(cache) != -1) {
