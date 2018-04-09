@@ -8,7 +8,7 @@ You can send different messages (tipically email) for SpamAssassin to check it i
 <dependency>
     <groupId>hu.alphabox</groupId>
     <artifactId>spamc</artifactId>
-    <version>0.1.1</version>
+    <version>0.1.2</version>
 </dependency>
 ```
 

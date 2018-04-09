@@ -111,8 +111,9 @@ public class SAClient {
 			socket.shutdownOutput();
 
 			byte[] cache = new byte[1024];
-			while (inputStream.read(cache) != -1) {
-				builder.append(new String(cache, SARequest.ENCODING));
+			int length = -1;
+			while (( length = inputStream.read(cache)) != -1) {
+				builder.append(new String(cache, 0, length, SARequest.ENCODING));
 			}
 			return new SAResponse(builder.toString());
 
